@@ -104,3 +104,21 @@ func TestProduct_inactivate(t *testing.T) {
 	assert.False(t, product.Active)
 	assert.NotNil(t, product.updatedAt)
 }
+
+func TestProduct_activate(t *testing.T) {
+	product, _ := NewProduct("Product 1", "Product 1 description", 32.11, true)
+
+	assert.True(t, product.Active)
+	assert.Nil(t, product.updatedAt)
+
+	product.inactivate()
+
+	momentAfterInactivate := product.updatedAt
+	assert.False(t, product.Active)
+	assert.NotNil(t, momentAfterInactivate)
+
+	product.activate()
+
+	assert.True(t, product.Active)
+	assert.True(t, product.updatedAt.After(*momentAfterInactivate))
+}

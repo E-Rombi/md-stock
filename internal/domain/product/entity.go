@@ -63,3 +63,10 @@ func (p *Product) inactivate() {
 	p.Active = false
 	p.updatedAt = &now
 }
+
+func (p *Product) activate() {
+	now := time.Now()
+
+	p.Active = true
+	p.updatedAt = &now
+}
