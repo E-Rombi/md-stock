@@ -4,6 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 	application "md-stock/internal/application/product/create"
 	infrastructure "md-stock/internal/infrastructure/product/model"
+	shared "md-stock/internal/infrastructure/shared"
 	"net/http"
 )
 
@@ -19,17 +20,20 @@ func NewProductApi(createUseCase application.CreateProductUseCase) *ProductApi {
 
 func (api *ProductApi) Create(ctx echo.Context) error {
 	var request infrastructure.CreateProductRequest
+
 	if err := ctx.Bind(&request); err != nil {
 		return err
 	}
+
 	command := application.NewCreateProductCommand(request.Name, request.Description, request.Price, request.Active)
 
 	output, err := api.createUseCase.Execute(command)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, shared.NewErrorResponse(err))
+		return err
 	}
 
-	ctx.JSON(http.StatusCreated, output.ID)
+	ctx.JSON(http.StatusCreated, infrastructure.NewCreateProductResponseFrom(output))
 
 	return nil
 }

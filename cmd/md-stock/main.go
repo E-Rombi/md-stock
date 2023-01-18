@@ -7,12 +7,18 @@ import (
 )
 
 func main() {
-	e := echo.New()
+	server := echo.New()
 
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+	setUpMiddlewares(server)
 
-	infrastructure.NewApplication(e).Start()
+	infrastructure.NewApplication(server).Start()
 
-	e.Logger.Fatal(e.Start(":8080"))
+	server.Logger.Fatal(server.Start(":8080"))
+}
+
+func setUpMiddlewares(server *echo.Echo) {
+	server.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "time=${time_rfc3339_nano}, method=${method}, uri=${uri}, status=${status}\n",
+	}))
+	server.Use(middleware.Recover())
 }

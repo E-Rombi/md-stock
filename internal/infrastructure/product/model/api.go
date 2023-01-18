@@ -1,5 +1,7 @@
 package infrastructure
 
+import application "md-stock/internal/application/product/create"
+
 type CreateProductRequest struct {
 	Name        string  `json:"name"`
 	Description string  `json:"description"`
@@ -9,4 +11,10 @@ type CreateProductRequest struct {
 
 type CreateProductResponse struct {
 	ID string `json:"id"`
+}
+
+func NewCreateProductResponseFrom(anOutput *application.CreateProductOutput) *CreateProductResponse {
+	return &CreateProductResponse{
+		ID: anOutput.ID,
+	}
 }
