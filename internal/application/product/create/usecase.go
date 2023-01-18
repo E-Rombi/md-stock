@@ -12,7 +12,7 @@ func NewDefaultCreateProductUseCase(aGateway domain.ProductGateway) *DefaultCrea
 	}
 }
 
-func (u *DefaultCreateProductUseCase) execute(aCommand *CreateProductCommand) (*CreateProductOutput, error) {
+func (u *DefaultCreateProductUseCase) Execute(aCommand *CreateProductCommand) (*CreateProductOutput, error) {
 	name := aCommand.Name
 	description := aCommand.Description
 	price := aCommand.Price

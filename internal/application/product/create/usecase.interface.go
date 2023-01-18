@@ -1,5 +1,5 @@
 package application
 
 type CreateProductUseCase interface {
-	execute(aCommand *CreateProductCommand) (*CreateProductOutput, error)
+	Execute(aCommand *CreateProductCommand) (*CreateProductOutput, error)
 }

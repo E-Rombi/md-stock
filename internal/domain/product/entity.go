@@ -14,8 +14,8 @@ type Product struct {
 	Description string
 	Price       domain.Money
 	Active      bool
-	createdAt   *time.Time
-	updatedAt   *time.Time
+	CreatedAt   *time.Time
+	UpdatedAt   *time.Time
 }
 
 func NewProduct(aName string, aDescription string, aPrice float64, isActive bool) (*Product, error) {
@@ -29,7 +29,7 @@ func NewProduct(aName string, aDescription string, aPrice float64, isActive bool
 		Description: aDescription,
 		Price:       price,
 		Active:      isActive,
-		createdAt:   &now,
+		CreatedAt:   &now,
 	}
 
 	if err := product.validate(); err != nil {
@@ -61,12 +61,12 @@ func (p *Product) inactivate() {
 	now := time.Now()
 
 	p.Active = false
-	p.updatedAt = &now
+	p.UpdatedAt = &now
 }
 
 func (p *Product) activate() {
 	now := time.Now()
 
 	p.Active = true
-	p.updatedAt = &now
+	p.UpdatedAt = &now
 }
