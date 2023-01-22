@@ -86,8 +86,8 @@ func TestNewProduct(t *testing.T) {
 				assert.Equal(t, tt.want.Description, got.Description)
 				assert.Equal(t, tt.want.Price, got.Price)
 				assert.Equal(t, tt.want.Active, got.Active)
-				assert.NotNil(t, got.createdAt)
-				assert.Nil(t, got.updatedAt)
+				assert.NotNil(t, got.CreatedAt)
+				assert.Nil(t, got.UpdatedAt)
 			}
 		})
 	}
@@ -97,28 +97,28 @@ func TestProduct_inactivate(t *testing.T) {
 	product, _ := NewProduct("Product 1", "Product 1 description", 32.11, true)
 
 	assert.True(t, product.Active)
-	assert.Nil(t, product.updatedAt)
+	assert.Nil(t, product.UpdatedAt)
 
 	product.inactivate()
 
 	assert.False(t, product.Active)
-	assert.NotNil(t, product.updatedAt)
+	assert.NotNil(t, product.UpdatedAt)
 }
 
 func TestProduct_activate(t *testing.T) {
 	product, _ := NewProduct("Product 1", "Product 1 description", 32.11, true)
 
 	assert.True(t, product.Active)
-	assert.Nil(t, product.updatedAt)
+	assert.Nil(t, product.UpdatedAt)
 
 	product.inactivate()
 
-	momentAfterInactivate := product.updatedAt
+	momentAfterInactivate := product.UpdatedAt
 	assert.False(t, product.Active)
 	assert.NotNil(t, momentAfterInactivate)
 
 	product.activate()
 
 	assert.True(t, product.Active)
-	assert.True(t, product.updatedAt.After(*momentAfterInactivate))
+	assert.True(t, product.UpdatedAt.After(*momentAfterInactivate))
 }

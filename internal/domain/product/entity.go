@@ -3,7 +3,7 @@ package domain
 import (
 	"errors"
 	"github.com/google/uuid"
-	"md-stock/internal/domain"
+	"md-stock/internal/domain/shared"
 	"strings"
 	"time"
 )

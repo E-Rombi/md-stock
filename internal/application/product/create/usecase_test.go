@@ -67,7 +67,7 @@ func TestDefaultCreateProductUseCase_execute(t *testing.T) {
 			uc := &DefaultCreateProductUseCase{
 				gateway: tt.fields.gateway,
 			}
-			got, err := uc.execute(tt.args.aCommand)
+			got, err := uc.Execute(tt.args.aCommand)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("execute() error = %v, wantErr %v", err, tt.wantErr)
 				return
