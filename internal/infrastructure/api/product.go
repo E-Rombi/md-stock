@@ -10,6 +10,7 @@ import (
 	shared "md-stock/internal/infrastructure/shared"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 type ProductApi struct {
@@ -45,17 +46,12 @@ func (api *ProductApi) Create(ctx echo.Context) error {
 }
 
 func (api *ProductApi) GetAll(ctx echo.Context) error {
-	page, err := strconv.Atoi(ctx.QueryParam("page"))
+	query, err := buildSearchQuery(ctx)
 	if err != nil {
-		return errors.New("query parameter 'page' should be an integer")
-	}
-	perPage, err := strconv.Atoi(ctx.QueryParam("perPage"))
-	if err != nil {
-		return errors.New("query parameter 'perPage' should be an integer")
+		return err
 	}
 
-	searchQuery := domain.NewSearchQuery(page, perPage, nil, nil, nil)
-	output, err := api.getAllUseCase.Execute(searchQuery)
+	output, err := api.getAllUseCase.Execute(query)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, shared.NewErrorResponse(err))
 		return err
@@ -64,4 +60,21 @@ func (api *ProductApi) GetAll(ctx echo.Context) error {
 	ctx.JSON(http.StatusOK, infrastructure.NewGetAllProductResponseFrom(output))
 
 	return nil
+}
+
+func buildSearchQuery(ctx echo.Context) (*domain.SearchQuery, error) {
+	page, err := strconv.Atoi(ctx.QueryParam("page"))
+	if err != nil {
+		return nil, errors.New("query parameter 'page' should be an integer")
+	}
+	perPage, err := strconv.Atoi(ctx.QueryParam("perPage"))
+	if err != nil {
+		return nil, errors.New("query parameter 'perPage' should be an integer")
+	}
+	terms := ctx.QueryParam("terms")
+	if strings.TrimSpace(terms) == "" {
+		return nil, errors.New("query parameter 'terms' should not be null")
+	}
+
+	return domain.NewSearchQuery(page, perPage, &terms, nil, nil), nil
 }
