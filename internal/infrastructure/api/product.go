@@ -10,7 +10,6 @@ import (
 	shared "md-stock/internal/infrastructure/shared"
 	"net/http"
 	"strconv"
-	"strings"
 )
 
 type ProductApi struct {
@@ -72,9 +71,6 @@ func buildSearchQuery(ctx echo.Context) (*domain.SearchQuery, error) {
 		return nil, errors.New("query parameter 'perPage' should be an integer")
 	}
 	terms := ctx.QueryParam("terms")
-	if strings.TrimSpace(terms) == "" {
-		return nil, errors.New("query parameter 'terms' should not be null")
-	}
 
 	return domain.NewSearchQuery(page, perPage, &terms, nil, nil), nil
 }

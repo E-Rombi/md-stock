@@ -54,7 +54,7 @@ func (g *ProductMySQLGateway) GetAll(aQuery *shared.SearchQuery) (*shared.Pagina
 }
 
 func buildWhere(someTerms *string) map[string]string {
-	if someTerms == nil {
+	if someTerms == nil || *someTerms == "" {
 		return map[string]string{}
 	}
 	terms := strings.Split(*someTerms, ",")
@@ -65,7 +65,6 @@ func buildWhere(someTerms *string) map[string]string {
 		where[values[0]] = values[1]
 	}
 
-	println("WHERE", where)
 	return where
 }
 

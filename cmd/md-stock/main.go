@@ -17,8 +17,6 @@ func main() {
 }
 
 func setUpMiddlewares(server *echo.Echo) {
-	server.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-		Format: "time=${time_rfc3339_nano}, method=${method}, uri=${uri}, status=${status}\n",
-	}))
+	server.Use(middleware.Logger())
 	server.Use(middleware.Recover())
 }
