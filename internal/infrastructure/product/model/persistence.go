@@ -15,6 +15,10 @@ type ProductGormEntity struct {
 	UpdatedAt   *time.Time `gorm:"column:updated_at"`
 }
 
+func (ProductGormEntity) TableName() string {
+	return "product"
+}
+
 func NewProductGormEntityFrom(aProduct *domain.Product) *ProductGormEntity {
 	return &ProductGormEntity{
 		ID:          aProduct.ID,

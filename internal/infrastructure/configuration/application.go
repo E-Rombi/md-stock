@@ -7,7 +7,8 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
-	application "md-stock/internal/application/product/create"
+	create "md-stock/internal/application/product/create"
+	getAll "md-stock/internal/application/product/getAll"
 	api "md-stock/internal/infrastructure/api"
 	infrastructure "md-stock/internal/infrastructure/product"
 )
@@ -65,9 +66,11 @@ func (app *Application) buildDB(config *Configuration) *gorm.DB {
 func (app *Application) setUpProduct(server *echo.Echo, db *gorm.DB) {
 	gateway := infrastructure.NewProductMySQLGateway(db)
 
-	create := application.NewDefaultCreateProductUseCase(gateway)
+	createUseCase := create.NewDefaultCreateProductUseCase(gateway)
+	getAllUseCase := getAll.NewDefaultGetAllProductUseCase(gateway)
 
-	handler := api.NewProductApi(create)
+	handler := api.NewProductApi(createUseCase, getAllUseCase)
 
 	server.POST("/products", handler.Create)
+	server.GET("/products", handler.GetAll)
 }

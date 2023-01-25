@@ -39,8 +39,28 @@ func NewProduct(aName string, aDescription string, aPrice float64, isActive bool
 	return product, nil
 }
 
+func NewProductWith(anId string, aName string, aDescription string, aPrice int64, isActive bool, createdAt *time.Time, updatedAt *time.Time) (*Product, error) {
+	price := domain.Money(aPrice * 100)
+
+	product := &Product{
+		ID:          anId,
+		Name:        aName,
+		Description: aDescription,
+		Price:       price,
+		Active:      isActive,
+		CreatedAt:   createdAt,
+		UpdatedAt:   updatedAt,
+	}
+
+	if err := product.validate(); err != nil {
+		return nil, err
+	}
+
+	return product, nil
+}
+
 func (p *Product) validate() error {
-	messages := make([]string, 0)
+	var messages []string
 	if strings.TrimSpace(p.Name) == "" {
 		messages = append(messages, "'name' is required")
 	}
