@@ -1,7 +1,6 @@
 package infrastructure
 
 import (
-	"errors"
 	"github.com/labstack/echo/v4"
 	create "md-stock/internal/application/product/create"
 	getAll "md-stock/internal/application/product/getAll"
@@ -64,11 +63,11 @@ func (api *ProductApi) GetAll(ctx echo.Context) error {
 func buildSearchQuery(ctx echo.Context) (*domain.SearchQuery, error) {
 	page, err := strconv.Atoi(ctx.QueryParam("page"))
 	if err != nil {
-		return nil, errors.New("query parameter 'page' should be an integer")
+		page = 0
 	}
 	perPage, err := strconv.Atoi(ctx.QueryParam("perPage"))
 	if err != nil {
-		return nil, errors.New("query parameter 'perPage' should be an integer")
+		perPage = 15
 	}
 	terms := ctx.QueryParam("terms")
 
