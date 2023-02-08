@@ -29,8 +29,8 @@ type GetAllProductResponse struct {
 	Name        string     `json:"name"`
 	Description string     `json:"description"`
 	Price       float64    `json:"price"`
-	Active      bool       `json:"active"`
-	CreatedAt   *time.Time `json:"createAt"`
+	Active      bool       `json:"isActive"`
+	CreatedAt   *time.Time `json:"createdAt"`
 	UpdatedAt   *time.Time `json:"updatedAt"`
 }
 
