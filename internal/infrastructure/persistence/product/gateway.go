@@ -1,11 +1,10 @@
-package infrastructure
+package persistence
 
 import (
 	"errors"
 	"gorm.io/gorm"
 	domain "md-stock/internal/domain/product"
 	shared "md-stock/internal/domain/shared"
-	infrastructure "md-stock/internal/infrastructure/product/model"
 	"strings"
 )
 
@@ -22,18 +21,18 @@ func (g *ProductMySQLGateway) GetAll(aQuery *shared.SearchQuery) (*shared.Pagina
 	results := g.db.
 		Table("product").
 		Where(where).
-		Where(infrastructure.ProductGormEntity{Active: true}).
+		Where(ProductGormEntity{Active: true}).
 		Count(&totalItems)
 	if results.Error != nil {
 		return nil, errors.New("error during the query")
 	}
 
-	var entities []infrastructure.ProductGormEntity
+	var entities []ProductGormEntity
 	results = g.db.
 		Offset(offset).
 		Limit(aQuery.PerPage).
 		Where(where).
-		Where(infrastructure.ProductGormEntity{Active: true}).
+		Where(ProductGormEntity{Active: true}).
 		Find(&entities)
 
 	if results.Error != nil {
@@ -75,7 +74,7 @@ func NewProductMySQLGateway(db *gorm.DB) *ProductMySQLGateway {
 }
 
 func (g *ProductMySQLGateway) Create(aProduct *domain.Product) (*domain.Product, error) {
-	entity := infrastructure.NewProductGormEntityFrom(aProduct)
+	entity := NewProductGormEntityFrom(aProduct)
 
 	err := g.db.Table("product").Create(entity).Error
 	if err != nil {

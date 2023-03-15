@@ -7,11 +7,11 @@ type Pagination[T any] struct {
 	Items       []T   `json:"items"`
 }
 
-func NewPagination[T any](aCurrentPage int, aPerPage int, aTotal int64, anItems []T) *Pagination[T] {
+func NewPagination[T any](aCurrentPage int, aPerPage int, aTotal int64, someItems []T) *Pagination[T] {
 	return &Pagination[T]{
 		CurrentPage: aCurrentPage,
 		PerPage:     aPerPage,
 		Total:       aTotal,
-		Items:       anItems,
+		Items:       someItems,
 	}
 }

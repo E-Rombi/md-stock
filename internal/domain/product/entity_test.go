@@ -1,8 +1,10 @@
 package domain
 
 import (
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"time"
 )
 
 func TestNewProduct(t *testing.T) {
@@ -121,4 +123,23 @@ func TestProduct_activate(t *testing.T) {
 
 	assert.True(t, product.Active)
 	assert.True(t, product.UpdatedAt.After(*momentAfterInactivate))
+}
+
+func TestNewProductWith(t *testing.T) {
+	id := uuid.NewString()
+	now := time.Now()
+
+	product, err := NewProductWith(id, "Product 1", "Product 1 description", 3200, true, &now, nil)
+
+	assert.Nil(t, err)
+	assert.Equal(t, id, product.ID)
+}
+
+func TestNewProductWithError(t *testing.T) {
+	id := uuid.NewString()
+	now := time.Now()
+
+	_, err := NewProductWith(id, "", "Product 1 description", 3200, true, &now, nil)
+
+	assert.NotNil(t, err)
 }

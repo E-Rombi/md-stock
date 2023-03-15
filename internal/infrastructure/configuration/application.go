@@ -9,9 +9,9 @@ import (
 	"gorm.io/gorm"
 	"log"
 	create "md-stock/internal/application/product/create"
-	getAll "md-stock/internal/application/product/getAll"
-	api "md-stock/internal/infrastructure/api"
-	infrastructure "md-stock/internal/infrastructure/product"
+	getAll "md-stock/internal/application/product/getall"
+	api "md-stock/internal/infrastructure/api/product"
+	infrastructure "md-stock/internal/infrastructure/persistence/product"
 )
 
 type Application struct {

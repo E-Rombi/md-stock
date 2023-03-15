@@ -1,8 +1,8 @@
-package infrastructure
+package api
 
 import (
 	create "md-stock/internal/application/product/create"
-	getAll "md-stock/internal/application/product/getAll"
+	getAll "md-stock/internal/application/product/getall"
 	domain "md-stock/internal/domain/shared"
 	"time"
 )

@@ -1,12 +1,11 @@
-package infrastructure
+package api
 
 import (
 	"github.com/labstack/echo/v4"
 	create "md-stock/internal/application/product/create"
-	getAll "md-stock/internal/application/product/getAll"
+	getAll "md-stock/internal/application/product/getall"
 	domain "md-stock/internal/domain/shared"
-	infrastructure "md-stock/internal/infrastructure/product/model"
-	shared "md-stock/internal/infrastructure/shared"
+	shared "md-stock/internal/infrastructure/api"
 	"net/http"
 	"strconv"
 )
@@ -29,8 +28,7 @@ func (api *ProductApi) Register(server *echo.Echo) {
 }
 
 func (api *ProductApi) Create(ctx echo.Context) error {
-	var request infrastructure.CreateProductRequest
-
+	var request CreateProductRequest
 	if err := ctx.Bind(&request); err != nil {
 		return err
 	}
@@ -43,7 +41,7 @@ func (api *ProductApi) Create(ctx echo.Context) error {
 		return err
 	}
 
-	ctx.JSON(http.StatusCreated, infrastructure.NewCreateProductResponseFrom(output))
+	ctx.JSON(http.StatusCreated, NewCreateProductResponseFrom(output))
 
 	return nil
 }
@@ -60,7 +58,7 @@ func (api *ProductApi) GetAll(ctx echo.Context) error {
 		return err
 	}
 
-	ctx.JSON(http.StatusOK, infrastructure.NewGetAllProductResponseFrom(output))
+	ctx.JSON(http.StatusOK, NewGetAllProductResponseFrom(output))
 
 	return nil
 }
