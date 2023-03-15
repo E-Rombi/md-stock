@@ -3,6 +3,7 @@ package infrastructure
 import (
 	"fmt"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -18,6 +19,8 @@ type Application struct {
 }
 
 func NewApplication(server *echo.Echo) *Application {
+	setUpMiddlewares(server)
+
 	return &Application{
 		server: server,
 	}
@@ -69,8 +72,9 @@ func (app *Application) setUpProduct(server *echo.Echo, db *gorm.DB) {
 	createUseCase := create.NewDefaultCreateProductUseCase(gateway)
 	getAllUseCase := getAll.NewDefaultGetAllProductUseCase(gateway)
 
-	handler := api.NewProductApi(createUseCase, getAllUseCase)
+	api.NewProductApi(createUseCase, getAllUseCase).Register(server)
+}
 
-	server.POST("/products", handler.Create)
-	server.GET("/products", handler.GetAll)
+func setUpMiddlewares(server *echo.Echo) {
+	server.Use(middleware.Recover())
 }

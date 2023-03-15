@@ -23,6 +23,11 @@ func NewProductApi(createUseCase create.CreateProductUseCase, getAllUseCase getA
 	}
 }
 
+func (api *ProductApi) Register(server *echo.Echo) {
+	server.POST("/products", api.Create)
+	server.GET("/products", api.GetAll)
+}
+
 func (api *ProductApi) Create(ctx echo.Context) error {
 	var request infrastructure.CreateProductRequest
 
